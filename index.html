@@ -1,163 +1,178 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adrianus Bonggakaraeng | Profile & Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Adrianus Bonggakaraeng | Professional Profile</title>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jQuery Library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --bg-card: #111827;
-            --bg-input: #1f2937;
-            --primary: #38bdf8;
-            --primary-glow: rgba(56, 189, 248, 0.15);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: #374151;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #38bdf8; /* Cyan Glow */
+            --primary-hover: #0ea5e9;
+            --accent: #818cf8; /* Indigo Glow */
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-main);
+            background: var(--bg-gradient);
             color: var(--text-main);
-            line-height: 1.6;
-            padding-bottom: 4rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
         }
 
-        .container {
+        /* CONTAINER UTAMA */
+        .wrapper {
+            width: 100%;
             max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
+            padding: 3rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* --- HERO HEADER --- */
-        .hero {
+        /* PROFILE CARD (HERO) */
+        .profile-header {
             text-align: center;
-            padding: 3rem 1rem 2rem 1rem;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1s ease-out;
         }
 
-        .hero h1 {
+        .avatar-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem auto;
+            position: relative;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .profile-header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
             letter-spacing: -0.05em;
+            margin-bottom: 0.5rem;
         }
 
-        .hero h1 span {
+        .profile-header h1 span {
             color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-glow);
         }
 
-        .hero p {
+        .profile-header p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
+            font-weight: 400;
         }
 
-        /* --- NAVIGATION BUTTONS / TABS --- */
-        .nav-container {
+        /* INTERACTIVE BUTTONS / NAVIGATION TABS */
+        .nav-toggle {
             display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 0.5rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
         }
 
-        .nav-btn {
-            background-color: var(--bg-card);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 0.8rem 2rem;
+        .btn-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.75rem 2.5rem;
             font-size: 1rem;
             font-weight: 600;
-            border-radius: 12px;
             cursor: pointer;
+            border-radius: 9999px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .nav-btn:hover {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
+        .btn-tab i {
+            font-size: 1.1rem;
         }
 
-        .nav-btn.active {
-            background-color: var(--primary);
-            color: var(--bg-main);
-            border-color: var(--primary);
-            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+        /* State Aktif Tombol */
+        .btn-tab.active {
+            background: var(--primary);
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
-        /* --- CONTENT WRAPPER --- */
-        .tab-content {
-            display: none; /* Disembunyikan secara default, diatur oleh jQuery */
-            animation: fadeIn 0.5s ease-in-out;
+        /* CONTENT SECTIONS (Glassmorphism Card) */
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            width: 100%;
+            padding: 3rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            min-height: 400px;
+            position: relative;
         }
 
-        .tab-content.active {
+        .content-panel {
+            display: none; /* Disembunyikan secara default, diatur lewat jQuery */
+        }
+
+        .content-panel.active-panel {
             display: block;
+            animation: slideUp 0.5s ease-out-back;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- STYLE FOR CV TAB --- */
-        .cv-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
+        /* FORMAT ISI CV */
         .cv-section {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
+            margin-bottom: 2.5rem;
         }
 
-        .cv-section h2 {
+        .cv-title {
             font-size: 1.4rem;
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            border-bottom: 1px solid var(--border);
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem;
         }
 
-        .info-list {
-            list-style: none;
-        }
-
-        .info-list li {
-            margin-bottom: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .info-list li strong {
-            color: var(--text-main);
-        }
-
         .timeline-item {
-            border-left: 2px solid var(--border);
+            border-left: 2px solid var(--border-color);
             padding-left: 1.5rem;
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .timeline-item::before {
@@ -167,278 +182,321 @@
             top: 6px;
             width: 10px;
             height: 10px;
-            background-color: var(--primary);
             border-radius: 50%;
+            background: var(--accent);
         }
 
         .timeline-date {
             font-size: 0.85rem;
-            color: var(--primary);
+            color: var(--accent);
             font-weight: 600;
         }
 
-        .timeline-title {
+        .timeline-role {
+            font-size: 1.2rem;
             font-weight: 600;
             margin: 0.25rem 0;
         }
 
         .timeline-company {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
-        .skills-container {
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .timeline-desc ul {
+            padding-left: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category h4 {
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .skill-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
 
-        .skill-tag {
-            background-color: var(--bg-input);
-            border: 1px solid var(--border);
-            padding: 0.4rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
-        /* --- STYLE FOR PORTFOLIO TAB --- */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        /* FORMAT ISI PORTFOLIO (Layout Presentasi Sisi ke Sisi) */
+        .portfolio-item {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+            align-items: center;
         }
 
-        .portfolio-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
+        .portfolio-item:nth-child(even) {
+            flex-direction: row-reverse;
         }
 
         .portfolio-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            background-color: var(--bg-input);
-            position: relative;
+            flex: 1;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
-        /* Badge di atas gambar proyek */
-        .project-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background-color: rgba(11, 15, 25, 0.8);
+        .portfolio-img img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-text {
+            flex: 1.2;
+        }
+
+        .portfolio-text h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
             color: var(--primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid var(--primary);
         }
 
-        .portfolio-info {
-            padding: 1.5rem;
-        }
-
-        .portfolio-info h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .portfolio-info p {
+        .portfolio-text p {
             color: var(--text-muted);
-            font-size: 0.95rem;
             margin-bottom: 1.5rem;
+            font-size: 1rem;
         }
 
-        .portfolio-tech {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tech-mini {
-            font-size: 0.75rem;
-            background-color: var(--bg-input);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            color: var(--text-muted);
-        }
-
-        /* --- FOOTER SOCIALS --- */
+        /* SOCIAL CHANNELS / FOOTER */
         footer {
-            margin-top: 5rem;
+            margin-top: 3rem;
             text-align: center;
-            border-top: 1px solid var(--border);
-            padding-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         .footer-socials {
             display: flex;
-            justify-content: center;
             gap: 1.5rem;
+            justify-content: center;
             margin-bottom: 1rem;
         }
 
         .footer-socials a {
             color: var(--text-muted);
             font-size: 1.3rem;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .footer-socials a:hover {
             color: var(--primary);
         }
 
-        /* --- RESPONSIVE HANDLER --- */
-        @media (max-width: 600px) {
-            .nav-container {
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            .main-card { padding: 1.5rem; }
+            .portfolio-item, .portfolio-item:nth-child(even) {
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 1.5rem;
             }
-            .nav-btn {
-                justify-content: center;
-            }
+            .profile-header h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <header class="hero">
-            <h1>Hi, I'm <span>Adrianus B.</span></h1>
-            <p>Web Developer & Full-Stack Programmer dengan pengalaman lebih dari 5 tahun membangun aplikasi web yang responsif dan inovatif.</p>
+    <div class="wrapper">
+        <!-- HEADER UTAMA (PROFIL) -->
+        <header class="profile-header">
+            <div class="avatar-container">
+                <!-- Ganti source image dengan avatar atau gambar representasi coding Anda -->
+                <img src="https://images.unsplash.com/photo-1618401471353-b98aedd07871?q=80&w=200&auto=format&fit=crop" alt="Developer Avatar">
+            </div>
+            <h1>Adrianus <span>Bonggakaraeng</span></h1>
+            <p>Web Developer & Full-Stack Programmer</p>
         </header>
 
-        <nav class="nav-container">
-            <button class="nav-btn active" data-tab="cv-tab">
-                <i class="fa-solid fa-file-invoice"></i> Lihat CV Saya
+        <!-- DUA BUTTON MENUTAB (INTERAKTIF) -->
+        <div class="nav-toggle">
+            <button class="btn-tab active" data-target="#cv-panel">
+                <i class="fa-regular fa-file-lines"></i> CV
             </button>
-            <button class="nav-btn" data-tab="portfolio-tab">
-                <i class="fa-solid fa-briefcase"></i> Portofolio Proyek
+            <button class="btn-tab" data-target="#portfolio-panel">
+                <i class="fa-solid fa-briefcase"></i> Portfolio
             </button>
-        </nav>
+        </div>
 
-        <div id="cv-tab" class="tab-content active">
-            <div class="cv-grid">
+        <!-- MAIN CARD CONTAINER -->
+        <div class="main-card">
+            
+            <!-- PANEL 1: CV CONTENT (Default Active) -->
+            <div id="cv-panel" class="content-panel active-panel">
                 
                 <div class="cv-section">
-                    <h2><i class="fa-solid fa-user"></i> Personal Overview</h2>
-                    <ul class="info-list">
-                        <li><strong>Lokasi:</strong> Bogor, Indonesia</li>
-                        <li><strong>Hubungi Saya:</strong> <a href="https://www.linkedin.com/in/adrianus-bonggakaraeng" target="_blank" style="color: var(--primary); text-decoration: none;">via LinkedIn / Konten Pesan</a></li>
-                    </ul>
+                    <h3 class="cv-title"><i class="fa-regular fa-user"></i> Professional Summary</h3>
+                    <p style="color: var(--text-muted);">Experienced Web Developer with over 5 years of demonstrated history in designing, developing, and deploying high-quality, responsive web applications. Expert in leveraging PHP frameworks like Laravel and Yii to deliver clean backend logic and seamless customer experiences.</p>
                 </div>
 
                 <div class="cv-section">
-                    <h2><i class="fa-solid fa-laptop-code"></i> Work Experience</h2>
+                    <h3 class="cv-title"><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2009 - 2013</div>
+                        <div class="timeline-role">Bachelor of Informatics Engineering</div>
+                        <div class="timeline-company">Klabat University</div>
+                        <p class="timeline-desc">GPA: 3.17 / 4.00</p>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3 class="cv-title"><i class="fa-solid fa-business-time"></i> Work Experience</h3>
                     
                     <div class="timeline-item">
-                        <div class="timeline-date">Jan 2024 - Sekarang</div>
-                        <div class="timeline-title">Helpdesk Specialist</div>
+                        <div class="timeline-date">Jan 2024 - Present</div>
+                        <div class="timeline-role">Helpdesk Specialist</div>
                         <div class="timeline-company">PT. Infomedia Nusantara</div>
-                        <p style="color: var(--text-muted); font-size: 0.95rem;">Menangani kendala teknis pengguna layanan operasional dan berkoordinasi erat dengan tim IT inti dalam maintenance serta aplikasi troubleshooting.</p>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li>Resolved critical application issues for operational lines to preserve flawless technical workflows.</li>
+                                <li>Coordinated directly with core development teams to execute application maintenance and bug debugging.</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="timeline-item">
                         <div class="timeline-date">Jul 2020 - Jul 2023</div>
-                        <div class="timeline-title">IT Support & Developer</div>
+                        <div class="timeline-role">IT Support & System Developer</div>
                         <div class="timeline-company">PT. Infomedia Nusantara</div>
-                        <p style="color: var(--text-muted); font-size: 0.95rem;">Mengembangkan dan memelihara aplikasi operasional internal tim agent guna meningkatkan efisiensi kerja sistem.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-date">Jul 2018 - Jul 2020</div>
-                        <div class="timeline-title">myIndiHome Helpdesk Staff</div>
-                        <div class="timeline-company">PT. Infomedia Nusantara</div>
-                        <p style="color: var(--text-muted); font-size: 0.95rem;">Menangani ekskalasi kendala aplikasi pelanggan, memberikan solusi panduan teknis, dan membuat laporan masalah sistem terperinci.</p>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li>Developed and meticulously maintained business-critical operational systems utilized daily by agent workgroups.</li>
+                                <li>Executed systematic code troubleshooting and code deployments in synchronization with senior developers.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <div class="cv-section">
-                    <h2><i class="fa-solid fa-screwdriver-wrench"></i> Technical Skills</h2>
-                    <div class="skills-container">
-                        <span class="skill-tag">PHP</span>
-                        <span class="skill-tag">Laravel</span>
-                        <span class="skill-tag">Yii Framework</span>
-                        <span class="skill-tag">JavaScript / JQuery</span>
-                        <span class="skill-tag">MySQL / SQLite</span>
-                        <span class="skill-tag">Linux (Ubuntu/CentOS)</span>
-                        <span class="skill-tag">Telegram Bot API</span>
+                    <h3 class="cv-title"><i class="fa-solid fa-code"></i> Professional Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Languages & Tech</h4>
+                            <div class="skill-tags">
+                                <span class="tag">PHP</span><span class="tag">JavaScript</span>
+                                <span class="tag">HTML5 / CSS3</span><span class="tag">jQuery</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Frameworks</h4>
+                            <div class="skill-tags">
+                                <span class="tag">Laravel</span><span class="tag">Yii Framework</span>
+                                <span class="tag">Flutter</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Databases & Server</h4>
+                            <div class="skill-tags">
+                                <span class="tag">MySQL</span><span class="tag">SQLite</span>
+                                <span class="tag">Oracle DB</span><span class="tag">Linux (Ubuntu/Debian)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div id="portfolio-tab" class="tab-content">
-            <div class="portfolio-grid">
+            </div>
+
+            <!-- PANEL 2: PORTFOLIO CONTENT -->
+            <div id="portfolio-panel" class="content-panel">
                 
-                <div class="portfolio-card">
-                    <div class="portfolio-img" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500');">
-                        <span class="project-badge">Web App</span>
+                <!-- Project 1 Layout Presentasi Sisi ke Sisi -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <!-- Masukkan url screenshoot asli project Xena Anda disini -->
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=500&auto=format&fit=crop" alt="Xena App">
                     </div>
-                    <div class="portfolio-info">
-                        <h3>Xena Data Distribution</h3>
-                        <p>Platform enterprise untuk manajemen distribursi data korporasi secara efisien menggunakan struktur routing database teroptimasi.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-mini">Laravel</span>
-                            <span class="tech-mini">MySQL</span>
-                            <span class="tech-mini">Bootstrap</span>
+                    <div class="portfolio-text">
+                        <h3>Xena Corporate Distribution Engine</h3>
+                        <p>An enterprise-grade distribution system built to handle high-frequency routing logistics. Highly tailored to manage data workflows and role-based permissions securely.</p>
+                        <div class="skill-tags">
+                            <span class="tag">Laravel</span><span class="tag">MySQL</span><span class="tag">REST API</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="portfolio-card">
-                    <div class="portfolio-img" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500');">
-                        <span class="project-badge">Automation</span>
+                <!-- Project 2 Layout Presentasi Sisi ke Sisi (Terbalik Otomatis di CSS) -->
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <!-- Masukkan url screenshoot bot Anda disini -->
+                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=500&auto=format&fit=crop" alt="Telegram Bot">
                     </div>
-                    <div class="portfolio-info">
-                        <h3>Telegram Operations Bot</h3>
-                        <p>Bot sistem otomatisasi yang terintegrasi penuh dengan webhook Telegram API untuk memantau logging aktivitas server secara real-time.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-mini">PHP Core</span>
-                            <span class="tech-mini">Telegram API</span>
-                            <span class="tech-mini">SQLite</span>
+                    <div class="portfolio-text">
+                        <h3>Dynamic Operations Telegram Bot</h3>
+                        <p>An asynchronous messaging automation bot that bridges database logging services and rapid real-time server diagnostics through secure inline commands via Telegram webhook architecture.</p>
+                        <div class="skill-tags">
+                            <span class="tag">Native PHP</span><span class="tag">Telegram API</span><span class="tag">SQLite</span>
                         </div>
                     </div>
                 </div>
 
             </div>
+
         </div>
 
+        <!-- FOOTER & AMAN DARI SPAM PRIVASI -->
         <footer>
             <div class="footer-socials">
-                <a href="mailto:adri.karaeng@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:adri.karaeng@gmail.com" title="Email Me"><i class="fa-regular fa-envelope"></i></a>
+                <a href="https://github.com" target="_blank" title="GitHub Profile"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com" target="_blank" title="LinkedIn Professional"><i class="fa-brands fa-linkedin"></i></a>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">&copy; 2026 Adrianus B. Terbuka untuk peluang kerja.</p>
+            <p>&copy; 2026 Adrianus Bonggakaraeng. Safe & Sanitized Public Profile.</p>
         </footer>
-
     </div>
 
+    <!-- LOGIKA JQUERY UNTUK SWITCH TAB BUTTON -->
     <script>
         $(document).ready(function() {
-            $('.nav-btn').click(function() {
-                // Hapus class active dari tombol yang ada, lalu tambah ke tombol yang diklik
-                $('.nav-btn').removeClass('active');
+            $('.btn-tab').on('click', function() {
+                // Hapus class active dari tombol yang lain, berikan ke tombol yang diklik
+                $('.btn-tab').removeClass('active');
                 $(this).addClass('active');
 
-                // Ambil id tab tujuan dari atribut data-tab
-                var targetTab = $(this).attr('data-tab');
+                // Ambil target panel yang ingin dimunculkan
+                var targetPanel = $(this).data('target');
 
-                // Sembunyikan semua tab content, lalu munculkan yang sesuai tujuan
-                $('.tab-content').removeClass('active');
-                $('#' + targetTab).addClass('active');
+                // Sembunyikan panel lama dengan efek transisi, lalu tampilkan panel tujuan
+                $('.content-panel').removeClass('active-panel');
+                $(targetPanel).addClass('active-panel');
             });
         });
     </script>
