@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adrianus Bonggakaraeng | Professional Profile</title>
-    <!-- Google Fonts (Inter) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- jQuery Library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
@@ -18,9 +16,9 @@
             --border-color: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --primary: #38bdf8; /* Cyan Glow */
+            --primary: #38bdf8;
             --primary-hover: #0ea5e9;
-            --accent: #818cf8; /* Indigo Glow */
+            --accent: #818cf8;
         }
 
         * {
@@ -40,7 +38,6 @@
             overflow-x: hidden;
         }
 
-        /* CONTAINER UTAMA */
         .wrapper {
             width: 100%;
             max-width: 1000px;
@@ -50,11 +47,12 @@
             align-items: center;
         }
 
-        /* PROFILE CARD (HERO) */
         .profile-header {
             text-align: center;
             margin-bottom: 2.5rem;
-            animation: fadeIn 1s ease-out;
+            width: 100%;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
         }
 
         .avatar-container {
@@ -87,10 +85,18 @@
         .profile-header p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            font-weight: 400;
         }
 
-        /* INTERACTIVE BUTTONS / NAVIGATION TABS */
+        /* Judul dinamis untuk eksport */
+        #export-title {
+            display: none;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
         .nav-toggle {
             display: flex;
             background: rgba(15, 23, 42, 0.6);
@@ -112,24 +118,18 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 9999px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .btn-tab i {
-            font-size: 1.1rem;
-        }
-
-        /* State Aktif Tombol */
         .btn-tab.active {
             background: var(--primary);
             color: #0f172a;
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
-        /* CONTENT SECTIONS (Glassmorphism Card) */
         .main-card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -140,21 +140,20 @@
             padding: 3rem;
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
             min-height: 400px;
-            position: relative;
         }
 
         .content-panel {
-            display: none; /* Disembunyikan secara default, diatur lewat jQuery */
+            display: none;
         }
 
         .content-panel.active-panel {
             display: block;
-            animation: slideUp 0.5s ease-out-back;
         }
 
-        /* FORMAT ISI CV */
         .cv-section {
             margin-bottom: 2.5rem;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
         }
 
         .cv-title {
@@ -166,6 +165,8 @@
             gap: 0.5rem;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
         }
 
         .timeline-item {
@@ -173,6 +174,8 @@
             padding-left: 1.5rem;
             position: relative;
             margin-bottom: 2rem;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
         }
 
         .timeline-item::before {
@@ -241,12 +244,14 @@
             color: var(--text-muted);
         }
 
-        /* FORMAT ISI PORTFOLIO (Layout Presentasi Sisi ke Sisi) */
+        /* FORMAT PORTFOLIO */
         .portfolio-item {
             display: flex;
             gap: 2.5rem;
             margin-bottom: 4rem;
-            align-items: center;
+            align-items: flex-start;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
         }
 
         .portfolio-item:nth-child(even) {
@@ -259,16 +264,14 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            background: #000;
         }
 
         .portfolio-img img {
             width: 100%;
             display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .portfolio-img:hover img {
-            transform: scale(1.05);
+            max-width: 100%;
+            height: auto;
         }
 
         .portfolio-text {
@@ -279,20 +282,68 @@
             font-size: 1.6rem;
             margin-bottom: 0.75rem;
             color: var(--primary);
+            page-break-after: avoid !important;
+            break-after: avoid !important;
         }
 
         .portfolio-text p {
             color: var(--text-muted);
             margin-bottom: 1.5rem;
             font-size: 1rem;
+            text-align: justify;
         }
 
-        /* SOCIAL CHANNELS / FOOTER */
+        /* EXPORT COMPONENT */
+        .export-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-export {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 0.85rem 1.75rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .btn-export i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .btn-export:hover {
+            background: var(--primary);
+            color: #0f172a;
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-export:hover i {
+            color: #0f172a;
+        }
+
         footer {
             margin-top: 3rem;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
+            width: 100%;
         }
 
         .footer-socials {
@@ -305,25 +356,8 @@
         .footer-socials a {
             color: var(--text-muted);
             font-size: 1.3rem;
-            transition: color 0.3s;
         }
 
-        .footer-socials a:hover {
-            color: var(--primary);
-        }
-
-        /* ANIMATIONS */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
             .main-card { padding: 1.5rem; }
             .portfolio-item, .portfolio-item:nth-child(even) {
@@ -332,22 +366,147 @@
             }
             .profile-header h1 { font-size: 2rem; }
         }
+
+        /*Styles saat proses export PDF berjalan*/
+        body.printing-pdf {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+
+        body.printing-pdf .wrapper {
+            padding: 10mm 10mm !important;
+            max-width: 100% !important;
+        }
+
+        body.printing-pdf .main-card {
+            background: #ffffff !important;
+            border: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+
+        body.printing-pdf h1, 
+        body.printing-pdf h1 span,
+        body.printing-pdf h2, 
+        body.printing-pdf h3, 
+        body.printing-pdf h4, 
+        body.printing-pdf p, 
+        body.printing-pdf span, 
+        body.printing-pdf li, 
+        body.printing-pdf div, 
+        body.printing-pdf i, 
+        body.printing-pdf .timeline-role, 
+        body.printing-pdf .timeline-company, 
+        body.printing-pdf .portfolio-text h3 {
+            color: #000000 !important;
+            text-shadow: none !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body.printing-pdf #export-title {
+            display: block !important; /* Memunculkan Judul Dokumen di PDF */
+            color: #000000 !important;
+        }
+
+        body.printing-pdf .cv-title {
+            border-bottom: 2px solid #000000 !important;
+        }
+
+        body.printing-pdf .timeline-item {
+            border-left: 2px solid #000000 !important;
+        }
+
+        body.printing-pdf .tag {
+            background: #ffffff !important;
+            border: 1px solid #000000 !important;
+            color: #000000 !important;
+        }
+
+        body.printing-pdf .portfolio-item, 
+        body.printing-pdf .portfolio-item:nth-child(even) {
+            flex-direction: row !important;
+            gap: 2rem !important;
+            background: #ffffff !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-bottom: 2.5rem !important; 
+        }
+
+        body.printing-pdf .portfolio-img {
+            border: 1px solid #000000 !important;
+            box-shadow: none !important;
+            max-width: 220px;
+        }
+
+        body.printing-pdf .nav-toggle, 
+        body.printing-pdf .export-container, 
+        body.printing-pdf footer {
+            display: none !important;
+        }
+
+        @media print {
+            .cv-section, .portfolio-item {
+                margin-top: 10px !important;
+                page-break-inside: avoid;
+            }
+        }
+
+        body.printing-pdf {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+
+        body.printing-pdf .wrapper {
+            /* Menyesuaikan padding agar tidak terlalu rapat di setiap halaman */
+            padding: 10mm 10mm !important;
+            max-width: 100% !important;
+        }
+
+        body.printing-pdf {
+            /* Tambahkan ini di bagian CSS Anda */
+            font-size: 0.9em !important; 
+        }
+
+        body.printing-pdf .cv-section {
+            margin-bottom: 10px !important; /* Memperkecil spasi antar section */
+        }
+
+        body.printing-pdf .timeline-item {
+            margin-bottom: 10px !important; /* Memperkecil spasi timeline */
+        }
+        #export-title{
+          font-size: 1.2em !important;
+        }
+
+        .hr-pdf {
+            display: none;
+            border: 0;
+            border-top: 1px solid #000;
+            margin: 10px 0;
+        }
+
+        /* 2. Tampilkan HANYA saat proses printing PDF */
+        body.printing-pdf .hr-pdf {
+            display: block !important;
+        }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <!-- HEADER UTAMA (PROFIL) -->
+    <div class="wrapper" id="print-area">
         <header class="profile-header">
             <div class="avatar-container">
-                <!-- Ganti source image dengan avatar atau gambar representasi coding Anda -->
                 <img src="photos/my-avatar.png" alt="Developer Avatar">
             </div>
             <h1>Adrianus <span>Bonggakaraeng</span></h1>
             <p>Web Developer & Full-Stack Programmer</p>
+            <h2 id="export-title"></h2>
+            <hr class="hr-pdf">
         </header>
 
-        <!-- DUA BUTTON MENUTAB (INTERAKTIF) -->
         <div class="nav-toggle">
             <button class="btn-tab active" data-target="#cv-panel">
                 <i class="fa-regular fa-file-lines"></i> CV
@@ -357,15 +516,12 @@
             </button>
         </div>
 
-        <!-- MAIN CARD CONTAINER -->
         <div class="main-card">
             
-            <!-- PANEL 1: CV CONTENT (Default Active) -->
             <div id="cv-panel" class="content-panel active-panel">
-                
                 <div class="cv-section">
                     <h3 class="cv-title"><i class="fa-regular fa-user"></i> Professional Summary</h3>
-                    <p style="color: var(--text-muted);">Experienced Web Developer with over 5 years of demonstrated history in designing, developing, and deploying high-quality, responsive web applications. Expert in leveraging PHP frameworks like Laravel and Yii to deliver clean backend logic and seamless customer experiences.</p>
+                    <p>Experienced Web Developer with over 5 years of demonstrated history in designing, developing, and deploying high-quality, responsive web applications. Expert in leveraging PHP frameworks like Laravel and Yii to deliver clean backend logic and seamless customer experiences.</p>
                 </div>
 
                 <div class="cv-section">
@@ -431,36 +587,29 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- PANEL 2: PORTFOLIO CONTENT -->
             <div id="portfolio-panel" class="content-panel">
-                
-                <!-- Project 1 Layout Presentasi Sisi ke Sisi -->
                 <div class="portfolio-item">
                     <div class="portfolio-img">
-                        <!-- Masukkan url screenshoot asli project Xena Anda disini -->
-                        <img src="photos/app/rebeca-summary-appstore.jpeg?q=80&w=500&auto=format&fit=crop" alt="REBECA App">
+                        <img src="photos/app/rebeca-summary-appstore.jpeg" alt="REBECA App">
                     </div>
                     <div class="portfolio-text">
                         <h3>REBECA (Report Backend Case) Web Application</h3>
-                        <p>This work assignment was an individual project where I was fully responsible for developing REBECA, a robust backend case management system engineered using the Yii2 framework and MySQL database. Serving as the primary developer, I designed the platform to log customer broadband issues, facilitate cross-team technical coordination, and implement a fair, automated ticket distribution algorithm among agents. The application delivered a profound operational impact by streamlining the solver team's workflow, eliminating bottlenecks in multi-department collaboration, and providing data-driven performance metrics to track individual agent KPIs. Through this first major corporate project at PT Infomedia Nusantara, I gained invaluable enterprise experience in managing full-stack lifecycles and alignment with corporate operational requirements.</p>
+                        <p>This work assignment was an individual project where I was fully responsible for developing REBECA, a robust backend case management system engineered using the Yii2 framework and MySQL database. Serving as the primary developer, I designed the platform to log customer broadband issues, facilitate cross-team technical coordination, and implement a fair, automated ticket distribution algorithm among agents.</p>
                         <div class="skill-tags">
                             <span class="tag">Yii2</span><span class="tag">MySQL</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 2 Layout Presentasi Sisi ke Sisi (Terbalik Otomatis di CSS) -->
                 <div class="portfolio-item">
                     <div class="portfolio-img">
-                        <!-- Masukkan url screenshoot bot Anda disini -->
-                        <img src="photos/app/telebot.jpeg?q=80&w=500&auto=format&fit=crop" alt="Telegram Bot">
+                        <img src="photos/app/telebot.jpeg" alt="Telegram Bot">
                     </div>
                     <div class="portfolio-text">
                         <h3>Telegram Bot Integration for REBECA</h3>
-                        <p>Initiated as an official work assignment, this individual project focused on developing and integrating an automated Telegram Bot into the existing REBECA ecosystem utilizing Yii2 and MySQL. I solely architected the bot to enable instant, non-ticketing customer incident reporting, which bypasses traditional queues to significantly accelerate service-level agreements (SLAs). This integration made a substantial impact by drastically reducing response times for critical customer issues, providing an alternative high-speed reporting channel, and directly boosting agent KPIs through faster resolution rates. This project expanded my technical expertise, giving me deep hands-on learning in webhook management, third-party API integration, and synchronous data synchronization between chat platforms and core web architectures.</p>
+                        <p>Initiated as an official work assignment, this individual project focused on developing and integrating an automated Telegram Bot into the existing REBECA ecosystem utilizing Yii2 and MySQL. I solely architected the bot to enable instant, non-ticketing customer incident reporting, which bypasses traditional queues to significantly accelerate service-level agreements (SLAs).</p>
                         <div class="skill-tags">
                             <span class="tag">Yii2</span><span class="tag">Telegram API</span><span class="tag">MySQL</span>
                         </div>
@@ -469,12 +618,11 @@
 
                 <div class="portfolio-item">
                     <div class="portfolio-img">
-                        <!-- Masukkan url screenshoot asli project Xena Anda disini -->
-                        <img src="photos/app/xena-realtime dashboard.jpg?q=80&w=500&auto=format&fit=crop" alt="XENA App">
+                        <img src="photos/app/xena-realtime dashboard.jpg" alt="XENA App">
                     </div>
                     <div class="portfolio-text">
                         <h3>XENA — Automated Ticket Distribution System</h3>
-                        <p>XENA is an official work assignment that I engineered individually as a next-generation web application utilizing Laravel 9 and a PostgreSQL 15 database. The system was purposefully designed to ingest high-volume customer ticket streams from ETL processes and external REST APIs, automatically distributing them to available agents using an equitable routing logic. This application provided a massive operational impact by eliminating manual data sorting, maximizing agent utilization, and securing rapid, fair task delegation across the service desk. Developing this system allowed me to master advanced enterprise PHP development via Laravel, optimize relational database schemas in PostgreSQL, and handle automated data distribution pipelines.</p>
+                        <p>XENA is an official work assignment that I engineered individually as a next-generation web application utilizing Laravel 9 and a PostgreSQL 15 database. The system was purposefully designed to ingest high-volume customer ticket streams from ETL processes and external REST APIs, automatically distributing them to available agents using an equitable routing logic.</p>
                         <div class="skill-tags">
                             <span class="tag">Laravel</span><span class="tag">PostgreSQL</span><span class="tag">REST API</span>
                         </div>
@@ -483,47 +631,113 @@
 
                 <div class="portfolio-item">
                     <div class="portfolio-img">
-                        <!-- Masukkan url screenshoot asli project Xena Anda disini -->
-                        <img src="photos/app/gahyopos.png?q=80&w=500&auto=format&fit=crop" alt="POS App">
+                        <img src="photos/app/gahyopos.png" alt="POS App">
                     </div>
                     <div class="portfolio-text">
                         <h3>Real-Time Distributed POS (Point of Sale) System</h3>
-                        <p>This project was a self-initiated freelance assignment where I acted as the sole developer to design and deploy a comprehensive POS system for a Korean restaurant chain in Jakarta. I developed a multi-tenant, distributed architecture using the Yii2 framework and MySQL to manage multi-branch operations, employee access controls, dynamic menus, and live inventory tracking. The system made a high-value business impact by enabling the client to oversee decentralized restaurant branches from a single dashboard, preventing stock discrepancies, and securing real-time financial tracking across all locations. Working on this product provided me with profound insights into distributed system architectures, real-time data synchronization between headquarters and retail branches, and complex inventory management logic.</p>
+                        <p>This project was a self-initiated freelance assignment where I acted as the sole developer to design and deploy a comprehensive POS system for a Korean restaurant chain in Jakarta. I developed a multi-tenant, distributed architecture using the Yii2 framework and MySQL to manage multi-branch operations, employee access controls, dynamic menus, and live inventory tracking.</p>
                         <div class="skill-tags">
                             <span class="tag">Yii2</span><span class="tag">MySQL</span><span class="tag">REST API</span>
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
 
-        <!-- FOOTER & AMAN DARI SPAM PRIVASI -->
         <footer>
             <div class="footer-socials">
-                <a href="mailto:adri.karaeng@gmail.com" title="Email Me"><i class="fa-regular fa-envelope"></i></a>
-                <a href="https://github.com/adrikaraeng/" target="_blank" title="GitHub Profile"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/adrianus-bonggakaraeng" target="_blank" title="LinkedIn Professional"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="mailto:adri.karaeng@gmail.com"><i class="fa-regular fa-envelope"></i></a>
+                <a href="https://github.com/adrikaraeng/" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/adrianus-bonggakaraeng" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
             </div>
-            <p>&copy; 2026 Adrianus Bonggakaraeng. Safe & Sanitized Public Profile.</p>
+            <p>&copy; 2026 Adrianus Bonggakaraeng. All Rights Reserved.</p>
         </footer>
     </div>
 
-    <!-- LOGIKA JQUERY UNTUK SWITCH TAB BUTTON -->
+    <div class="export-container">
+        <button id="btn-export-cv" class="btn-export">
+            <i class="fa-solid fa-file-pdf"></i> Export CV to PDF
+        </button>
+        <button id="btn-export-portfolio" class="btn-export" style="display: none;">
+            <i class="fa-solid fa-folder-open"></i> Export Portfolio to PDF
+        </button>
+    </div>
+
     <script>
         $(document).ready(function() {
+            // Logika ganti Tab
             $('.btn-tab').on('click', function() {
-                // Hapus class active dari tombol yang lain, berikan ke tombol yang diklik
                 $('.btn-tab').removeClass('active');
                 $(this).addClass('active');
 
-                // Ambil target panel yang ingin dimunculkan
                 var targetPanel = $(this).data('target');
-
-                // Sembunyikan panel lama dengan efek transisi, lalu tampilkan panel tujuan
                 $('.content-panel').removeClass('active-panel');
                 $(targetPanel).addClass('active-panel');
+
+                if(targetPanel === '#cv-panel') {
+                    $('#btn-export-cv').show();
+                    $('#btn-export-portfolio').hide();
+                } else {
+                    $('#btn-export-cv').hide();
+                    $('#btn-export-portfolio').show();
+                }
+            });
+
+            // KONFIGURASI UTAMA ANTI-BLUR & ANTI-PAGE-SPLIT OPTIMAL
+            const pdfSetting = {
+                margin:       [10, 10, 10, 10], 
+                image:        { type: 'jpeg', quality: 0.98 }, 
+                html2canvas:  { 
+                    scale: 2, // Diturunkan sedikit agar performa lebih stabil namun tetap tajam
+                    backgroundColor: '#ffffff',
+                    useCORS: true,             
+                    logging: false,
+                    letterRendering: true      
+                }, 
+                jsPDF:        { unit: 'mm', format: 'legal', orientation: 'portrait' }
+            };
+
+            function generatePDF(filename) {
+                $('body').addClass('printing-pdf');
+                $('.avatar-container').hide();
+
+                setTimeout(function() {
+                    var element = document.getElementById('print-area');
+                    var opt = {
+                        margin: [5, 10, 5, 10], // Margin atas/bawah diperkecil agar muat
+                        filename: filename,
+                        image: { type: 'jpeg', quality: 0.95 },
+                        html2canvas: { 
+                            scale: 1.5, // Sedikit diturunkan agar file tidak terlalu besar dan mudah dirender
+                            useCORS: true 
+                        },
+                        jsPDF: { unit: 'mm', format: 'legal', orientation: 'portrait' },
+                        // Menghapus pagebreak agar html2pdf tidak memotong paksa
+                        pagebreak: { mode: 'none' } 
+                    };
+
+                    html2pdf().set(opt).from(element).save().then(function() {
+                        $('body').removeClass('printing-pdf');
+                        $('#export-title').text('');
+                    });
+                }, 150);
+            }
+
+            // Export CV Handler
+            $('#btn-export-cv').on('click', function() {
+                $('#export-title').text('Curriculum Vitae'); // Set judul CV sebelum eksport
+                generatePDF('CV_Adrianus_Bonggakaraeng.pdf', { 
+                    mode: ['css', 'legacy'] 
+                });
+            });
+
+            // Export Portfolio Handler
+            $('#btn-export-portfolio').on('click', function() {
+                $('#export-title').text('Portofolio'); // Set judul Portofolio sebelum eksport
+                generatePDF('Portfolio_Adrianus_Bonggakaraeng.pdf', { 
+                    mode: ['css', 'legacy'] 
+                });
             });
         });
     </script>
